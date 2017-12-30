@@ -1,5 +1,5 @@
 +++
-title = "Skywire - Skycoin Meshnet Project"
+title = "Skywire - Skycoin vermaschtes Netz Projekt"
 tags = [
     "Skywire",
     "Meshnet",
@@ -12,50 +12,50 @@ categories = [
 ]
 +++
 
-![Skywire: The New Internet](https://i.imgur.com/9Jk0gLe.jpg)
+![Skywire: Das neue Internet](https://i.imgur.com/9Jk0gLe.jpg)
 
 <!-- MarkdownTOC autolink="true" bracket="round" -->
 
-- [Introduction](#introduction)
-- [Routing: Overview](#routing-overview)
-- [Incentives: Payment Protocol](#incentives-payment-protocol)
-- [Source Routing: Link Layer Encryption](#source-routing-link-layer-encryption)
-    - [Example Protocol: Nodes `A` and `B`](#example-protocol-nodes-a-and-b)
-    - [Possible Improvements:](#possible-improvements)
-- [IPv4 Gateway: Bypassing Existing ISPs](#ipv4-gateway-bypassing-existing-isps)
-    - [Example One](#example-one)
-    - [Example Two](#example-two)
-- [Skywire Daemon Services Architecture](#skywire-daemon-services-architecture)
-    - [Example Service: Blockchain Sync](#example-service-blockchain-sync)
-        - [Finding Peers](#finding-peers)
-        - [Sending and Receiving Messages](#sending-and-receiving-messages)
-- [Multi-Home Routing and Link Aggregation](#multi-home-routing-and-link-aggregation)
-- [Meshnet Routing: Store and Forward](#meshnet-routing-store-and-forward)
-- [Store and Forward: Capacity Utilization](#store-and-forward-capacity-utilization)
-- [Store and Forward: Examples](#store-and-forward-examples)
-    - [Example of normal operation](#example-of-normal-operation)
-    - [Example with congestion](#example-with-congestion)
-    - [Example with packet loss](#example-with-packet-loss)
-- [Store and Forward: Bandwidth Latency Product](#store-and-forward-bandwidth-latency-product)
-- [Store and Forward: Capacity Utilization, Quality and Service](#store-and-forward-capacity-utilization-quality-and-service)
-- [Source Routing: Multi-Route Mobile Connectivity](#source-routing-multi-route-mobile-connectivity)
-- [Source Routing: Guard Nodes](#source-routing-guard-nodes)
-- [Source Routing: Limitations of BGP](#source-routing-limitations-of-bgp)
-- [Virtual Routes: Skywire Network Topology at Scale](#virtual-routes-skywire-network-topology-at-scale)
-- [Source Routing: Virtual Routes, SONET Topology](#source-routing-virtual-routes-sonet-topology)
-- [Source Routing: Asymmetric Connectivity](#source-routing-asymmetric-connectivity)
-- [Source Routing: Route Discovery](#source-routing-route-discovery)
+- [Einführung](#introduction)
+- [Routing: Übersicht](#routing-overview)
+- [Anreize: Zahlungsprotokoll](#incentives-payment-protocol)
+- [Source Routing: Verbindungsschicht-Verschlüsselung](#source-routing-link-layer-encryption)
+    - [Beispiel Protokoll: Knoten `A` und `B`](#example-protocol-nodes-a-and-b)
+    - [Mögliche Verbesserungen:](#possible-improvements)
+- [IPv4 Gateway: Umgehend existierender IDAs](#ipv4-gateway-bypassing-existing-isps)
+    - [Beispiel Eins](#example-one)
+    - [Beispiel Zwei](#example-two)
+- [Skywire Hintergrundprogrammservicearchitektur](#skywire-daemon-services-architecture)
+    - [Beispiel Service: Blockchain Synchronisation](#example-service-blockchain-sync)
+        - [Finden von Peers](#finding-peers)
+        - [Senden und Erhalten von Nachrichten](#sending-and-receiving-messages)
+- [Multi-Home Routing und Link Aggregation](#multi-home-routing-and-link-aggregation)
+- [Vermaschtes Netz Routing: Teilstreckenverfahren](#meshnet-routing-store-and-forward)
+- [Teilstreckenverfahren: Kapazitätsauslastung](#store-and-forward-capacity-utilization)
+- [Teilstreckenverfahren: Beispiele](#store-and-forward-examples)
+    - [Beispiel im normalen Betrieb](#example-of-normal-operation)
+    - [Beispiel mit Überbelegun](#example-with-congestion)
+    - [Beispiel mit Paketverlust](#example-with-packet-loss)
+- [Teilstreckenverfahren: Bandbreiten-Latenzzeit Produkt](#store-and-forward-bandwidth-latency-product)
+- [Teilstreckenverfahren: Kapazitätsauslastung, Qualtität und Service](#store-and-forward-capacity-utilization-quality-and-service)
+- [Teilstreckenverfahren: Multi-Route Mobilkonnektivität](#source-routing-multi-route-mobile-connectivity)
+- [Teilstreckenverfahren: Wächerknoten](#source-routing-guard-nodes)
+- [Teilstreckenverfahren: Begrenztheit von BGP](#source-routing-limitations-of-bgp)
+- [VRF-Instanz: skalierende Skywire Netzwerktopologie](#virtual-routes-skywire-network-topology-at-scale)
+- [Teilstreckenverfahren: VRF-Instanz, SONET-Topologie](#source-routing-virtual-routes-sonet-topology)
+- [Teilstreckenverfahren: Asymmetrische Konnektivität](#source-routing-asymmetric-connectivity)
+- [Teilstreckenverfahren: Routenentdeckung](#source-routing-route-discovery)
 
 <!-- /MarkdownTOC -->
 
-## Introduction
+## Einführung
 
-Skywire objectives:
+Skywires Ziele:
 
-* Increase broadband competition. Provide an alternative to existing ISPs. Span last mile.
-* Enable communities to build ISPs running on user operated infrastructure.
+* Erhöhen der Breitbandkonkurrenz. Bereitstellen einer Alternative zu exisiterende IDAs. Aufspannen der Teilnehmeranschlussleitung.
+* Communities die Möglichkeit zu geben, IDAs mit nutzerbetriebener Infrastruktur zu betreiben.
 
-Skywire is a new darknet protocol.
+Skywire ist ein neues Darknetprotokoll.
 
 * Low Latency (as fast as TCP/IP and theoretically faster on native network)
 * High Performance (designed for video, file sharing and high throughput applications)
