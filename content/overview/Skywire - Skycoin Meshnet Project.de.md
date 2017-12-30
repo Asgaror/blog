@@ -19,7 +19,7 @@ categories = [
 - [Einführung](#introduction)
 - [Routing: Übersicht](#routing-overview)
 - [Anreize: Zahlungsprotokoll](#incentives-payment-protocol)
-- [Source Routing: Verbindungsschicht-Verschlüsselung](#source-routing-link-layer-encryption)
+- [Source Routing: Verbindungsschichtverschlüsselung](#source-routing-link-layer-encryption)
     - [Beispiel Protokoll: Knoten `A` und `B`](#example-protocol-nodes-a-and-b)
     - [Mögliche Verbesserungen:](#possible-improvements)
 - [IPv4 Gateway: Umgehend existierender IDAs](#ipv4-gateway-bypassing-existing-isps)
@@ -57,82 +57,82 @@ Skywires Ziele:
 
 Skywire ist ein neues Darknetprotokoll.
 
-* Low Latency (as fast as TCP/IP and theoretically faster on native network)
-* High Performance (designed for video, file sharing and high throughput applications)
-* Privacy Preserving
-* Supports Operation Over Wifi (Meshnet)
-* Supports Clearnet Operation (Darknet/Overlay)
+* Geringe Latenz (so schnell wie TCP/IP und theoretisch schneller im systemeigenen Netzwerk)
+* Hoher Durchsatz (designt für Videos, Datentausch und Anwendungen, welche hohen Durchsatz erfordern)
+* Privatspähre bewahrend
+* Unterstützt den Betrieb über Wi-Fi (vermaschtes Netz (meshnet))
+* Unterstützt den Zugriff auf das öffentliche Internet (clearnet) (Darknet/Overlay)
 
-Skywire solves the incentive and leeching problem for network deployment.
+Skywire löst das die Anreiz- und Leechingproblematik der Netzwerkbereitstellung.
 
-* Users receive Skycoins for providing network resources
-* Users consume coins for consuming network resources
+* Nutzer erhalten Skycoin im Gegenzug für das Bereitstellen von Netzwerkressourcen
+* Nutzer verbrauchen Skycoin für die Nutzung von Netzwerkressourcen
 
-Skywire is open access.
+Skywire ist frei zugänglich.
 
-* Anyone with a client is able to connect to any Skywire node
-* Objective is to create a global open access meshnet
+* Jedem mit einem Client ist es möglich zu beliebigen Skywire-Knoten eine Verbindung aufzubauen
+* Ziel ist es ein global verfügbares, offenes vermaschtes Netz (meshnet) zu schaffen.
 
-Skywire is privacy preserving.
+Skywire bewahrt die Privatsphäre
 
-* The traffic passing through your node cannot be traced back to your IP address
-* Nodes forwarding traffic can only see the previous and next hop
-* Third parties passively observing cannot link individual packets to a stream or user
-* Third parties and forwarding nodes cannot read contents of traffic
+* Der Datentraffic, der durch die Knoten läuft, kann nicht mit deiner IP-Adresse verknüpft werden
+* Traffic weiterleitende Knoten können nur ihren unmittelbaren Vorgänger und Nachfolger sehen
+* Beobachtende Drittparteien können einzelne Pakete keinem Stream von Daten oder gar bestimmten Nutzern zuordnen
+* Drittpartien und weiterleitende Knoten können den Inhalt des Traffics nicht lesen
 
-## Routing: Overview
+## Routing: Übersicht
 
-The Skywire meshnet uses a source-routed store-and-forward protocol.
+Das vermaschte Netz Skywire nutzt ein Source Routing Teilstreckenverfahrenprotokoll.
 
-The core of the overlay network is a series of nodes.
+Der Kern des Overlay-Netzwerks ist eine Serie von Knoten.
 
-* Each node is identified by a public key hash
-* Each node receives messages and forwards messages
-* Nodes receive coins for forwarding traffic
+* Jeder Knoten wird mittels des Hashs eines öffentliches Schlüssels identifiziert
+* Jeder Knoten erhält Nachrichten und leitet Nachrichten weiter
+* Knoten erhalten Coins für das weiterleiten von Traffic
 
-To communicate between nodes `A` and `C`, through node `B`:
+Um eine Kommunikation zwischen den Knoten `A` und `C` über Knoten `B` herzustellen:
 
-* Node `A` connects to node `B` and establishes a Route
-* Node `A` extends the route to `C`
-* Traffic sent over the route on `A` will arrive at `C`
+* Knoten `A` verbindet zu Knoten `B` und baut eine Route auf
+* Knoten `A` erweitert die Route zu `C`
+* Traffic, der über die Route zu `A` gesendet wird, kommt bei `C` an
 
-In a route `A -> B -> C -> D`:
+Auf einer Route `A -> B -> C -> D`: 
 
-* Nodes only know previous and next hop in route.
-* `C` will know that the message passed through `B` and is addressed to `D`. `C` will however not know the identity of `A`.
-* `B` cannot infer that `A` is the origin of the route.
-* `C` cannot infer that `D` is the final destination of the message
-* `B` and `C` cannot read the content of the message (end to end encryption)
-* A passive observer not participating in the routing of a particular message cannot gain any information about the contents of the message (link layer encryption).
-* Multiple messages from multiple routes to the same destination may be bundled, reducing ability of passive observer to perform traffic analysis.
+* Knoten wissen nur den vorherigen und den nächsten Hop in der Route.
+* `C` verfügt über das Wissen, dass die Nachrichte über `B` gewandert ist und an `D` adressiert ist. `C` ist jedoch die Identität `A` nicht bekannt.
+* `B` kann nicht schlussfolgern, dass `A` der Ursprung der Route ist.
+* `C` kann nicht schlussfolgern, dass `D` der Endpunkt der Nachricht ist.
+* `B` und `C` können den Inhalt der Nachricht nicht lesen (Ende-zu-Ende-Verschlüsselung)
+* Ein passiver Beobachter, der nicht an der Weiterleitung einer bestimmten Nachricht beteiligt ist, kann keine Informationen über den Inhalt einer Nachricht gewinnen (Verbindungsschichtverschlüsselung)
+* Mehrere Nachrichten von mehreren Routen zum selben Endpunkt können gebündelt werden, um die Möglichkeit passiver Beobachter zur Trafficanalyse einzuschränken.
 
-In the simplest implementation a route is a 128-bit prefix.
-Each node reads the prefix and does a lookup in a table,
-to determine the next node to forward the packet to.
+In der einfachsten Implementation ist eine Route ein 128-Bit Präfix.
+Jeder Knoten liest das Präfix und macht einen Tabellennachschlag, um den nächsten Knoten, an den das Paket gesendet werden soll, zu bestimmen.
 
-The source has complete control over routing.
+Die Quelle hat die absolute Kontrolle über die Streckenführung (Routing).
 
-* Each node can upgrade its routing protocol independently to suit their needs
-* Source can optimize network paths for lower latency network paths for VOIP or gaming
-* Source can optimize network paths for throughput for video and file sharing applications
-* Source can bundle multiple routes to destination for redundancy, reduced latency and throughput
+* Jeder Knoten kann sein Routing-Protokoll unabhängig voneinander aktualisieren, um exakt seinen Bedürfnisse zu entsprechen
+* Die Quelle kann Netzwerkpfade für geringe Latenzzeit optimieren, um VOIP oder Gaming zu ermöglichen
+* Die Quelle kann Netzwerkpfade für hohen Durchsatz optimieren, um Video und Datentauschanwendungen zu ermöglichen
+* Die Quelle kann mehrere Routen zu einem Endpunkt bündeln, um Redundanzen zu erzeugen, Latenzzeit zu senken und den Durchsatz zu senken
 
-Some applications will bundle multiple parallel routes at application layer for:
+Einige Anwendungen werden mehrere parallele Routen auf der Anwendungsebene bündeln, um:
 
-* privacy (gatekeeper nodes, tor type gateway/anon services)
-* throughput
-* reduced latency
-* redundancy
+* Privatsphäre (Torwächterknoten, tor-ähnliches Gateway/anononyme Services)
+* Durchsatz
+* Reduzierte Latenz
+* Redundanz
 
-This is the core of the Skycoin overlay network. It is very simple, but extremely powerful.
-Technical and implementation details will be discussed later.
+Dies ist der Kern des Skycoin Overlay-Netzwerks. Es ist sehr einfach, aber extremst mächtig.
+Technische Details und Implementation werden später behandelt werden.
 
-Skywire simply prefixes a packet with a route ID.
+Skywire stellt einem Paket einfach eine Routen-ID voran.
 
-* Routing is a very simple table lookup
-* Overhead per packet is constant and does not increase for long routes
+* Routing ist ein einfach Tabellennachschlag
+* Verwaltungsaufwand pro Paket ist konstant und erhöht sich für längere Routen nicht
 
-Notes:
+Anmerkungen:
+
 
 * The destination does not know the identity of the origin. Identity is no longer at routing layer, but application layer. Identity must be confirmed through public key infrastructure.
 * Man-in-middle attacks are not possible. A source can verify the destination through their public key.
