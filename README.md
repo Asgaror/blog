@@ -3,11 +3,18 @@
 Skycoin Blog
 ============
 
-https://blog.skycoin.net/
+https://www.skycoin.net/blog/
 
 This blog uses [hugo](https://gohugo.io/) to generate a static website from markdown files.
 
 Refer to hugo documentation for full detail.
+
+Translation Bounty Program
+==========================
+
+If you are here for the translation bounty program and need help submitting a translation, follow this guide (pdf):
+
+[Skycoin  Blog Github Translation Instructions](https://github.com/skycoin/blog/files/1469162/github-translation-manual.pdf)
 
 Content: Create or Amend Posts
 ==============================
@@ -24,7 +31,7 @@ Make sure that your posts compile without error. Check the formatting.
 
 Then, commit the changes and push.
 
-If there are no problems, then https://blog.skycoin.net/ will automatically update in a few minutes.
+If there are no problems, then https://www.skycoin.net/blog/ will automatically update in a few minutes.
 
 Translations
 ============
